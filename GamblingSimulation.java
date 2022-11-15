@@ -2,73 +2,62 @@
 public class GamblingSimulation {
 	public int oneDayGamestake = 100;
 	public int perGameBet = 1;
-	public int gameNumber = 0;
 
 	public static void main(String[] args) {
 		System.out.println("This is  the Gambling Simulator!!!");
 		System.out.println("Gambler start with a stake 100");
 
 		GamblingSimulation gambling = new GamblingSimulation();
-		//gambling.playGame();
-	gambling.oneDayGame();
+
+		gambling.checkTotalAmount();
 	}
 
-	public void playGame() {
-		int winStack = 0;
-		int looseStack = 0;
-		int isGameWinOrLoose = (int) (Math.random() * 2);
+	public int randomCheckGame() {
 
-		switch (isGameWinOrLoose) {
-		case 0:
-			System.out.println("Gambler loose the game");
-			gameNumber++;
-			looseStack = looseStack + perGameBet;
-			System.out.println(looseStack);
-			oneDayGamestake = oneDayGamestake - looseStack;
-			break;
-		case 1:
-			System.out.println("Gambler win the game");
-			gameNumber++;
-			winStack = winStack + perGameBet;
-			System.out.println(winStack);
-			oneDayGamestake = oneDayGamestake + winStack;
-			break;
-		}
-		System.out.println("Game Stake : " + oneDayGamestake);
-
+		return (int) (Math.random() * 2);
 	}
-	public void oneDayGame() {
-		int winStake = 0;
-		int looseStake = 0;
 
-		int cash = oneDayGamestake;
-		
-		while(winStake < oneDayGamestake*50/100 && looseStake < oneDayGamestake*50/100) {
-			int isGameWinOrLoose = (int) (Math.random() * 2);
+	public void checkTotalAmount() {
+
+		int day = 20;
+		int totalAmount = 0;
+		for (int i = 1; i <= day; i++) {
+			int winStake = 0;
+			int looseStake = 0;
+			int cash = 0;
+			int gameNumber = 0;
+			System.out.println("Start the Day " + i + " Game");
+			while (winStake < oneDayGamestake * 50 / 100 && looseStake < oneDayGamestake * 50 / 100) {
+				int isGameWinOrLoose = randomCheckGame();
+				switch (isGameWinOrLoose) {
+				case 0:
+//					System.out.println("Gambler loose the game");
+					gameNumber++;
+					looseStake = looseStake + perGameBet;
+
+					cash = oneDayGamestake - perGameBet;
+					break;
+				case 1:
+//					System.out.println("Gambler win the game");
+					gameNumber++;
+					winStake = winStake + perGameBet;
+
+					cash = oneDayGamestake + perGameBet;
+					break;
+
+				}
+				
+				totalAmount = totalAmount + cash;
+			}
+			System.out.println("Total Game play in One Day : " + gameNumber);
+			System.out.println("Number of game Gambler Loose: " + looseStake);
+			System.out.println("Number of game Gambler Win : " + winStake);
 			
-			switch (isGameWinOrLoose) {
-			case 0:
-				System.out.println("Gambler loose the game");
-				gameNumber++;
-				looseStake = looseStake + perGameBet;
-				System.out.println(looseStake);
-				cash = oneDayGamestake - looseStake;
-				break;
-			case 1:
-				System.out.println("Gambler win the game");
-				gameNumber++;
-				winStake = winStake + perGameBet;
-				System.out.println(winStake);
-				cash = oneDayGamestake + winStake;
-				break;
+			System.out.println("Case collection of Game Day " + i + ": " + cash);
+			System.out.println("----------------------------");
+
 		}
-			System.out.println("Game Stack : " + cash);
-			System.out.println("Game number : " + gameNumber);
-			System.out.println("Loosing game:" +looseStake);
-			System.out.println("wining game : " + winStake);
-		}
-			
-		
-		
+		System.out.println("Total Amount in 20 days : " + totalAmount);
 	}
+
 }
