@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.swing.LookAndFeel;
 
 public class GamblingSimulation {
 	public int oneDayGamestake = 100;
@@ -9,37 +13,36 @@ public class GamblingSimulation {
 
 		GamblingSimulation gambling = new GamblingSimulation();
 
-		gambling.checkTotalAmount();
+		gambling.calculateWonAndLooDay();
 	}
 
 	public int randomCheckGame() {
 
 		return (int) (Math.random() * 2);
 	}
-	
-	
-	public void checkTotalAmount() {
 
+	public void calculateWonAndLooDay() {
 		int day = 30;
 		int totalAmount = 0;
+		ArrayList<Integer> winNumberList = new ArrayList<>();
+		ArrayList<Integer> loosNumberList = new ArrayList<>();
+
 		for (int i = 1; i <= day; i++) {
 			int winStake = 0;
 			int looseStake = 0;
 			int cash = 0;
 			int gameNumber = 0;
-			System.out.println("Start the Day " + i + " Game");
 			while (winStake < oneDayGamestake * 50 / 100 && looseStake < oneDayGamestake * 50 / 100) {
 				int isGameWinOrLoose = randomCheckGame();
 				switch (isGameWinOrLoose) {
 				case 0:
-//					System.out.println("Gambler loose the game");
 					gameNumber++;
 					looseStake = looseStake + perGameBet;
 
 					cash = oneDayGamestake - perGameBet;
 					break;
 				case 1:
-//					System.out.println("Gambler win the game");
+
 					gameNumber++;
 					winStake = winStake + perGameBet;
 
@@ -47,24 +50,41 @@ public class GamblingSimulation {
 					break;
 
 				}
-				
-				totalAmount = totalAmount + cash;
+
 			}
-			System.out.println("Total Game play in One Day : " + gameNumber);
-			System.out.println("Number of game Gambler Loose: " + looseStake);
-			System.out.println("Number of game Gambler Win : " + winStake);
-			
-			System.out.println("Case collection of Game Day " + i + ": " + cash);
-			System.out.println("----------------------------");
-			
-			if(cash > oneDayGamestake)
-				System.out.println("gambler won by " + (cash - oneDayGamestake) );
-			else if(cash < oneDayGamestake)
-				System.out.println("gambler loss by " + ( oneDayGamestake - cash) );
-			else
-				System.out.println("No profit no loss");
+			winNumberList.add(winStake);
+			loosNumberList.add(looseStake);
+
 		}
-		//System.out.println("Total Amount in month: " + totalAmount);
+		System.out.println("number of win :" + winNumberList);
+		System.out.println("number of loos: " + loosNumberList);
+
+		findLuckiestDay(winNumberList);
+		findUnluckiestDay(loosNumberList);
+
 	}
 
+	private void findUnluckiestDay(ArrayList<Integer> loosNumberList) {
+		int maximum = loosNumberList.get(0);
+		for (Integer x : loosNumberList) {
+			if (x > maximum)
+				maximum = x;
+
+		}
+		System.out.println(
+				"Gambler Unluckiest day where he lost maximum is : Day " + (loosNumberList.indexOf(maximum) + 1));
+
+	}
+
+	private void findLuckiestDay(ArrayList<Integer> winNumberList) {
+		int maximum = winNumberList.get(0);
+		for (int j = 1; j < winNumberList.size(); j++) {
+			if (maximum < winNumberList.get(j))
+				maximum = winNumberList.get(j);
+
+		}
+		System.out
+				.println("Gambler luckiest day where he won maximum is : Day " + (winNumberList.indexOf(maximum) + 1));
+
+	}
 }
