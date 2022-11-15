@@ -16,10 +16,11 @@ public class GamblingSimulation {
 
 		return (int) (Math.random() * 2);
 	}
-
+	
+	
 	public void checkTotalAmount() {
 
-		int day = 20;
+		int day = 30;
 		int totalAmount = 0;
 		for (int i = 1; i <= day; i++) {
 			int winStake = 0;
@@ -55,9 +56,15 @@ public class GamblingSimulation {
 			
 			System.out.println("Case collection of Game Day " + i + ": " + cash);
 			System.out.println("----------------------------");
-
+			
+			if(cash > oneDayGamestake)
+				System.out.println("gambler won by " + (cash - oneDayGamestake) );
+			else if(cash < oneDayGamestake)
+				System.out.println("gambler loss by " + ( oneDayGamestake - cash) );
+			else
+				System.out.println("No profit no loss");
 		}
-		System.out.println("Total Amount in 20 days : " + totalAmount);
+		//System.out.println("Total Amount in month: " + totalAmount);
 	}
 
 }
